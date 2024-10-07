@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <string>
 
 template<typename T, typename C>
 T my_max(T a, T b, C comp)
@@ -13,7 +14,7 @@ void insertionSort(std::vector<T>& arr)
     //insertion sort for vector
     for(int i = 1; i < arr.size(); i++)
     {
-        int key = arr[i];
+        T key = arr[i];
         int j = i - 1;
         while(j >= 0 && arr[j] > key)
         {
@@ -35,21 +36,20 @@ int main()
     std::cout << my_max('a', 'z', [] (auto a, auto b) { return a > b ? b : a; }) << std::endl;
     std::cout << "Zad 2" << std::endl << "=========================" << std::endl;
     
-    std::cout << "Before sorting: ";
-    std::vector<int> arr = {12, 11, 13, 5, 6};
-
-    for (auto &l:arr)
+    std::vector<int> intvec = {12, 11, 13, 5, 6};
+    std::vector<std::string> stringvec = {"a", "c", "b", "d"};
+    insertionSort(intvec);
+    insertionSort(stringvec);
+    for (auto &l:intvec)
     {
         std::cout<<l<<" ";
     }
-    std::cout << std::endl;
-    insertionSort(arr);
-    std::cout << "After sorting: ";
-    for (auto &l:arr)
+    std::cout<<std::endl;
+    for (auto &l:stringvec)
     {
         std::cout<<l<<" ";
     }
-    std::cout << std::endl;
+    std::cout<<std::endl;
     
 
     return 0;
