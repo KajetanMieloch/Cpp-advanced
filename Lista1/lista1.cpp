@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 template<typename T, typename C>
 T my_max(T a, T b, C comp)
@@ -7,20 +8,19 @@ T my_max(T a, T b, C comp)
 }
 
 template<typename T>
-void insertionSort(T arr[], int n)
+void insertionSort(std::vector<T>& arr)
 {
-    for (int i = 1; i < n; ++i) {
+    //insertion sort for vector
+    for(int i = 1; i < arr.size(); i++)
+    {
         int key = arr[i];
         int j = i - 1;
-
-        /* Move elements of arr[0..i-1], that are
-           greater than key, to one position ahead
-           of their current position */
-        while (j >= 0 && arr[j] > key) {
-            arr[j + 1] = arr[j];
-            j = j - 1;
+        while(j >= 0 && arr[j] > key)
+        {
+            arr.at(j+1) = arr[j];
+            j -= 1;
         }
-        arr[j + 1] = key;
+        arr.at(j+1) = key;
     }
 }
 
@@ -34,6 +34,22 @@ int main()
     std::cout << my_max("ZZZ", "AAA", [] (auto a, auto b) { return a < b ? b : a; }) << std::endl;
     std::cout << my_max('a', 'z', [] (auto a, auto b) { return a > b ? b : a; }) << std::endl;
     std::cout << "Zad 2" << std::endl << "=========================" << std::endl;
+    
+    std::cout << "Before sorting: ";
+    std::vector<int> arr = {12, 11, 13, 5, 6};
+
+    for (auto &l:arr)
+    {
+        std::cout<<l<<" ";
+    }
+    std::cout << std::endl;
+    insertionSort(arr);
+    std::cout << "After sorting: ";
+    for (auto &l:arr)
+    {
+        std::cout<<l<<" ";
+    }
+    std::cout << std::endl;
     
 
     return 0;
