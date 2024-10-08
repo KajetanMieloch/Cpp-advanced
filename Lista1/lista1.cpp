@@ -2,12 +2,14 @@
 #include <vector>
 #include <string>
 
+//Zad1
 template<typename T, typename C>
 T my_max(T a, T b, C comp)
 {
     return comp(a,b);
 }
 
+//Zad2
 template<typename T>
 void insertionSort(std::vector<T>& arr)
 {
@@ -25,8 +27,22 @@ void insertionSort(std::vector<T>& arr)
     }
 }
 
-int main()
+//Zad3
+namespace cpplab
 {
+    template<typename T>
+    class vector
+    {
+        private:
+        T data;
+        std::size_t a;
+        
+    };
+}
+
+int main()
+{   
+    //Zad1
     std::cout << "Lista 1, Kajetan Mieloch" << std::endl << "=========================" << std::endl;
     std::cout << "Zad 1" << std::endl << "=========================" << std::endl;
     std::cout << my_max(4, 3, [] (auto a, auto b) { return a < b ? b : a; }) << std::endl;
@@ -36,6 +52,8 @@ int main()
     std::cout << my_max('a', 'z', [] (auto a, auto b) { return a > b ? b : a; }) << std::endl;
     std::cout << "Zad 2" << std::endl << "=========================" << std::endl;
     
+
+    //Zad2
     std::vector<int> intvec = {12, 11, 13, 5, 6};
     std::vector<std::string> stringvec = {"a", "c", "b", "d"};
     insertionSort(intvec);
