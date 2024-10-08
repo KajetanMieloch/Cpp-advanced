@@ -34,29 +34,74 @@ namespace cpplab
     class vector
     {
         private:
-        T* data;
-        std::size_t a;
+        T* vdata;
+        std::size_t vsize;
 
         public:
         T& operator[](std::size_t index)
         {
-            return data[index];
+            return vdata[index];
         }
 
         vector(std::size_t size = 0)
         {
-            data = new T[size];
-            a = size;
+            vdata = new T[size];
+            vsize = size;
         }
 
-        void insert_data(int indx, T* data)
+        std::size_t get_size()
         {
-            data[indx] = data;
+            return vsize;
+        }
+
+        void insert_data(int indx, T data)
+        {
+            T* temp = new T[vsize + 1];
+            for(int i = 0; i < indx; i++)
+            {
+                temp[i] = vdata[i];
+            }
+            temp[indx] = data;
+            for(int i = indx; i < vsize; i++)
+            {
+                temp[i+1] = vdata[i];
+            }
+            delete[] vdata;
+            vdata = temp;
+            vsize++;
+        }
+
+        void erase_data(int indx)
+        {
+            T* temp = new T[vsize - 1];
+            for(int i = 0; i < indx; i++)
+            {
+                temp[i] = vdata[i];
+            }
+            for(int i = indx; i < vsize - 1; i++)
+            {
+                temp[i] = vdata[i+1];
+            }
+            delete[] vdata;
+            vdata = temp;
+            vsize--;
+        }
+
+        void shorten_vec(int newsize)
+        {
+            T* temp = new T[newsize];
+            for(int i = 0; i < newsize; i++)
+            {
+                temp[i] = vdata[i];
+            }
+            delete[] vdata;
+            vdata = temp;
+            vsize = newsize;
         }
 
         ~vector()
         {
-            delete[] data;
+            delete[] vdata;
         }
     };
 }
@@ -92,9 +137,16 @@ int main()
     
     //Zad3
     std::cout << "Zad 3" << std::endl << "=========================" << std::endl;
-    cpplab::vector<int> vec;
+    cpplab::vector<int> vec(5);
     vec[0] = 1;
-    std::cout << vec[0] << std::endl;
+    vec[1] = 2;
+    vec.insert_data(1, 3);
+    vec.erase_data(0);
+    vec.shorten_vec(2);
+    for(int i = 0; i < vec.get_size(); i++)
+    {
+        std::cout << vec[i] << std::endl;
+    }
 
     return 0;
 }
