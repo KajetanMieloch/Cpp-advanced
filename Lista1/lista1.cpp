@@ -34,9 +34,30 @@ namespace cpplab
     class vector
     {
         private:
-        T data;
+        T* data;
         std::size_t a;
-        
+
+        public:
+        T& operator[](std::size_t index)
+        {
+            return data[index];
+        }
+
+        vector(std::size_t size = 0)
+        {
+            data = new T[size];
+            a = size;
+        }
+
+        void insert_data(int indx, T* data)
+        {
+            data[indx] = data;
+        }
+
+        ~vector()
+        {
+            delete[] data;
+        }
     };
 }
 
@@ -69,6 +90,11 @@ int main()
     }
     std::cout<<std::endl;
     
+    //Zad3
+    std::cout << "Zad 3" << std::endl << "=========================" << std::endl;
+    cpplab::vector<int> vec;
+    vec[0] = 1;
+    std::cout << vec[0] << std::endl;
 
     return 0;
 }
