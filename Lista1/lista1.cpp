@@ -112,31 +112,26 @@ namespace cpplab
             vsize = newsize;
         }
 
-        T dot_product(std::vector<T> stdvector)
+        T dot_product(const std::vector<T>& stdvector)
         {
-            std::cout << stdvector.size() << std::endl;
-            std::cout << vsize << std::endl;
-
-            if (vsize == 0 || stdvector.size() == 0)
-                {
-                    return 0;
-                }
-
-            std::cout << value_type << std::endl;
-
-            if (stdvector.size() == vsize)
+            if (vsize == 0 || stdvector.size() == 0 || stdvector.size() != vsize)
             {
-                T sum = 0;
-                for(int i = 0; i < vsize; i++)
-                {
-                    sum += vdata[i] * stdvector[i];
-                }
-                return sum;
+                return T();
             }
-            else
+
+            T result = T();
+            for (std::size_t i = 0; i < vsize; i++)
             {
-                return 0;
+                if constexpr (std::is_arithmetic<T>::value)
+                {
+                    result += vdata[i] * stdvector[i];
+                }
+                else if constexpr (std::is_same<T, std::string>::value)
+                {
+                    result += vdata[i] + stdvector[i];
+                }
             }
+            return result;
         }
 
         ~vector()
@@ -193,5 +188,13 @@ int main()
     cppvector = {1, 2, 3, 4, 5};
     std::vector<int> stdvector = {1, 2, 3, 4, 5};
     std::cout << cppvector.dot_product(stdvector) << std::endl;
+
+    cpplab::vector<std::string> cppstringvector;
+    cppstringvector = {"a", "b", "c", "d", "e"};
+    std::vector<std::string> stdstringvector = {"a", "b", "c", "d", "e"};
+    std::cout << cppstringvector.dot_product(stdstringvector) << std::endl;
+
+
+    return 0;
 
 }
