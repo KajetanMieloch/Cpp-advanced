@@ -36,11 +36,24 @@ namespace cpplab
         private:
         T* vdata;
         std::size_t vsize;
+        typedef T value_type;
 
         public:
+        T* begin() {return vdata;}
+        T* end() {return vdata + vsize;}
+
         T& operator[](std::size_t index)
         {
             return vdata[index];
+        }
+
+        void operator=(std::vector<T> stdvector)
+        {
+            vsize = stdvector.size();
+            for(int i = 0; i < stdvector.size(); i++)
+            {
+                vdata[i] = stdvector[i];
+            }
         }
 
         vector(std::size_t size = 0)
@@ -99,9 +112,37 @@ namespace cpplab
             vsize = newsize;
         }
 
+        T dot_product(std::vector<T> stdvector)
+        {
+            std::cout << stdvector.size() << std::endl;
+            std::cout << vsize << std::endl;
+
+            if (vsize == 0 || stdvector.size() == 0)
+                {
+                    return 0;
+                }
+
+            std::cout << value_type << std::endl;
+
+            if (stdvector.size() == vsize)
+            {
+                T sum = 0;
+                for(int i = 0; i < vsize; i++)
+                {
+                    sum += vdata[i] * stdvector[i];
+                }
+                return sum;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         ~vector()
         {
             delete[] vdata;
+            vdata = nullptr;
         }
     };
 }
@@ -148,5 +189,9 @@ int main()
         std::cout << vec[i] << std::endl;
     }
 
-    return 0;
+    cpplab::vector<int> cppvector;
+    cppvector = {1, 2, 3, 4, 5};
+    std::vector<int> stdvector = {1, 2, 3, 4, 5};
+    std::cout << cppvector.dot_product(stdvector) << std::endl;
+
 }
