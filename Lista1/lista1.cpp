@@ -119,17 +119,26 @@ namespace cpplab
                 return T();
             }
 
+            std::cout << "Dot product: ";
+
             T result = T();
             for (std::size_t i = 0; i < vsize; i++)
             {
-                if constexpr (std::is_arithmetic<T>::value)
+                if (std::is_same<T, char>::value)
+                {
+                    std::cout<<"Error: char type not supported"<<std::endl;
+                    return T();
+                }
+                else if (std::is_same<T, std::string>::value)
+                {
+                    std::cout<<"Error: string type not supported"<<std::endl;
+                    return T();
+                }
+                else
                 {
                     result += vdata[i] * stdvector[i];
                 }
-                else if constexpr (std::is_same<T, std::string>::value)
-                {
-                    result += vdata[i] + stdvector[i];
-                }
+
             }
             return result;
         }
@@ -189,11 +198,20 @@ int main()
     std::vector<int> stdvector = {1, 2, 3, 4, 5};
     std::cout << cppvector.dot_product(stdvector) << std::endl;
 
-    cpplab::vector<std::string> cppstringvector;
-    cppstringvector = {"a", "b", "c", "d", "e"};
-    std::vector<std::string> stdstringvector = {"a", "b", "c", "d", "e"};
-    std::cout << cppstringvector.dot_product(stdstringvector) << std::endl;
+    cpplab::vector<float> cppvector2;
+    cppvector2 = {1.1, 2.2, 3.3, 4.4, 5.5};
+    std::vector<float> stdvector2 = {1.1, 2.2, 3.3, 4.4, 5.5};
+    std::cout << cppvector2.dot_product(stdvector2) << std::endl;
 
+    cpplab::vector<char> cppvector3;
+    cppvector3 = {'a', 'b', 'c', 'd', 'e'};
+    std::vector<char> stdvector3 = {'a', 'b', 'c', 'd', 'e'};
+    std::cout << cppvector3.dot_product(stdvector3) << std::endl;
+    
+    cpplab::vector<std::string> cppvector4;
+    cppvector4 = {"a", "b", "c", "d", "e"};
+    std::vector<std::string> stdvector4 = {"a", "b", "c", "d", "e"};
+    //std::cout << cppvector4.dot_product(stdvector4) << std::endl;
 
     return 0;
 
