@@ -62,7 +62,7 @@ namespace cpplab
             vsize = size;
         }
 
-        std::size_t get_size()
+        std::size_t size()
         {
             return vsize;
         }
@@ -112,35 +112,29 @@ namespace cpplab
             vsize = newsize;
         }
 
-        T dot_product(const std::vector<T>& stdvector)
+        void pop_back()
         {
-            if (vsize == 0 || stdvector.size() == 0 || stdvector.size() != vsize)
+            T* temp = new T[vsize - 1];
+            for(int i = 0; i < vsize - 1; i++)
             {
-                return T();
+                temp[i] = vdata[i];
             }
+            delete[] vdata;
+            vdata = temp;
+            vsize--;
+        }
 
-            std::cout << "Dot product: ";
-
-            T result = T();
-            for (std::size_t i = 0; i < vsize; i++)
+        void push_back(T data)
+        {
+            T* temp = new T[vsize + 1];
+            for(int i = 0; i < vsize; i++)
             {
-                if (std::is_same<T, char>::value)
-                {
-                    std::cout<<"Error: char type not supported"<<std::endl;
-                    return T();
-                }
-                else if (std::is_same<T, std::string>::value)
-                {
-                    std::cout<<"Error: string type not supported"<<std::endl;
-                    return T();
-                }
-                else
-                {
-                    result += vdata[i] * stdvector[i];
-                }
-
+                temp[i] = vdata[i];
             }
-            return result;
+            temp[vsize] = data;
+            delete[] vdata;
+            vdata = temp;
+            vsize++;
         }
 
         ~vector()
@@ -150,6 +144,33 @@ namespace cpplab
         }
     };
 }
+
+template<typename L, typename C>
+auto operator*(L &v1, C &v2)
+{
+  
+    if (v1.size() != v2.size()) {
+        throw std::invalid_argument("Vectors must be of the same size.");
+    }
+
+    if (v1.size() == 0) {
+        throw std::invalid_argument("Vectors must not be empty.");
+    }
+
+    if (typeid(v1[0]) != typeid(v2[0])) {
+        throw std::invalid_argument("Vectors must be of the same type.");
+    }
+
+    using ResultType = decltype(v1[0] * v2[0]);
+    ResultType result = 0;
+    
+    for (std::size_t i = 0; i < v1.size(); ++i) {
+        result += v1[i] * v2[i];
+    }
+
+    return result;
+}
+
 
 int main()
 {   
@@ -188,7 +209,7 @@ int main()
     vec.insert_data(1, 3);
     vec.erase_data(0);
     vec.shorten_vec(2);
-    for(int i = 0; i < vec.get_size(); i++)
+    for(int i = 0; i < vec.size(); i++)
     {
         std::cout << vec[i] << std::endl;
     }
@@ -196,22 +217,25 @@ int main()
     cpplab::vector<int> cppvector;
     cppvector = {1, 2, 3, 4, 5};
     std::vector<int> stdvector = {1, 2, 3, 4, 5};
-    std::cout << cppvector.dot_product(stdvector) << std::endl;
+    std::cout << cppvector * stdvector << std::endl;
+    std::cout << stdvector * cppvector << std::endl;
+    
 
     cpplab::vector<float> cppvector2;
     cppvector2 = {1.1, 2.2, 3.3, 4.4, 5.5};
     std::vector<float> stdvector2 = {1.1, 2.2, 3.3, 4.4, 5.5};
-    std::cout << cppvector2.dot_product(stdvector2) << std::endl;
+    std::cout << cppvector2 * stdvector2 << std::endl;
+    std::cout << stdvector2 * cppvector2 << std::endl;
+
 
     cpplab::vector<char> cppvector3;
     cppvector3 = {'a', 'b', 'c', 'd', 'e'};
     std::vector<char> stdvector3 = {'a', 'b', 'c', 'd', 'e'};
-    std::cout << cppvector3.dot_product(stdvector3) << std::endl;
-    
-    cpplab::vector<std::string> cppvector4;
-    cppvector4 = {"a", "b", "c", "d", "e"};
-    std::vector<std::string> stdvector4 = {"a", "b", "c", "d", "e"};
-    //std::cout << cppvector4.dot_product(stdvector4) << std::endl;
+    std::cout << cppvector3 * stdvector3 << std::endl;
+    std::cout << stdvector3 * cppvector3 << std::endl;
+
+
+
 
     return 0;
 
