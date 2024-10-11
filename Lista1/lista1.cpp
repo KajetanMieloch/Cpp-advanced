@@ -227,15 +227,28 @@ int main()
     std::cout << cppvector2 * stdvector2 << std::endl;
     std::cout << stdvector2 * cppvector2 << std::endl;
 
+    //W ten sposób mogę stworzyć stringa
+    cpplab::vector<std::string> cppvector4;
+    cppvector4.push_back("a");
+    cppvector4.push_back("b");
+    cppvector4.push_back("c");
+    cppvector4.push_back("d");
+    cppvector4.push_back("e");
 
-    cpplab::vector<char> cppvector3;
-    cppvector3 = {'a', 'b', 'c', 'd', 'e'};
-    std::vector<char> stdvector3 = {'a', 'b', 'c', 'd', 'e'};
-    std::cout << cppvector3 * stdvector3 << std::endl;
-    std::cout << stdvector3 * cppvector3 << std::endl;
+    for (int i = 0; i < cppvector4.size(); i++)
+    {
+        std::cout << cppvector4[i] << " ";
+    }
+    std::cout << std::endl;
 
+    //W ten sposób NIE mogę stworzyć stringa
+    cpplab::vector<std::string> cppvector3;
+    cppvector3 = {"a", "b", "c", "d", "e"};
 
-
+    for (int i = 0; i < cppvector3.size(); i++)
+    {
+        std::cout << cppvector3[i] << " ";
+    }
 
     return 0;
 
