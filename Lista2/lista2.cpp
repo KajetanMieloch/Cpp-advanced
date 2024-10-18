@@ -3,29 +3,94 @@
 #include <string>
 #include <type_traits>
 
+bool naturalOrderCompare(const std::string& a, const std::string& b)
+{
+    int i = 0, j = 0;
+    while (i < a.size() && j < b.size())
+    {
+        if (std::isdigit(a[i]) && std::isdigit(b[j]))
+        {
+            int num1 = 0, num2 = 0;
+            while (i < a.size() && std::isdigit(a[i]))
+            {
+                num1 = num1 * 10 + (a[i] - '0');
+                i++;
+            }
+            while (j < b.size() && std::isdigit(b[j]))
+            {
+                num2 = num2 * 10 + (b[j] - '0');
+                j++;
+            }
+            if (num1 != num2)
+            {
+                return num1 < num2;
+            }
+        }
+        else
+        {
+            if (a[i] != b[j])
+            {
+                return a[i] < b[j];
+            }
+            i++;
+            j++;
+        }
+    }
+    return a.size() < b.size();
+}
+
 template<typename T>
 typename std::enable_if<std::is_same<T, std::string>::value, void>::type 
 insertionSort(std::vector<T>& arr)
 {
-    std::cout << "This is a string" << std::endl;
+    for (int i = 1; i < arr.size(); i++)
+    {
+        T key = arr[i];
+        int j = i - 1;
+        while (j >= 0 && naturalOrderCompare(key, arr[j]))
+        {
+            arr.at(j + 1) = arr[j];
+            j -= 1;
+        }a
+        arr.at(j + 1) = key;
+    }
 }
 
-template<typename T>
-typename std::enable_if<!std::is_same<T, std::string>::value, void>::type 
-insertionSort(std::vector<T>& arr)
+template<int N>
+struct factorial
 {
-    std::cout << "This is not a string" << std::endl;
-}
+    static const int value = N * factorial<N - 1>::value;
+};
+
+template<>
+struct factorial<0>
+{
+    static const int value = 1;
+};
 
 int main()
 {
-    std::vector<int> arr = {12, 11, 13, 5, 6};
-    insertionSort(arr);
+    std::vector<std::string> arr3 = {"zad1", "das1", "zad2", "zad7", "zad11"};
+    insertionSort(arr3);
+    for (auto& l : arr3)
+    {
+        std::cout << l << " ";
+    }
 
     std::cout << std::endl;
 
-    std::vector<std::string> arr2 = {"Ala", "ma", "kota", "a", "kot", "ma", "Ale"};
-    insertionSort(arr2);
+    std::vector<std::string> arr4 = {"zad2ab", "zad1ba"};
+    insertionSort(arr4);
+    for (auto& l : arr4)
+    {
+        std::cout << l << " ";
+    }
+
+    std::cout << std::endl;
+
+    std::cout << factorial<5>::value << std::endl;
+    std::cout << factorial<0>::value << std::endl;
+    std::cout << std::endl;
 
     return 0;
 }
