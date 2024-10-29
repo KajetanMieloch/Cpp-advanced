@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <type_traits>
+#include <algorithm>
 
 bool naturalOrderCompare(const std::string& a, const std::string& b)
 {
@@ -51,7 +52,7 @@ insertionSort(std::vector<T>& arr)
         {
             arr.at(j + 1) = arr[j];
             j -= 1;
-        }a
+        }
         arr.at(j + 1) = key;
     }
 }
@@ -62,17 +63,40 @@ struct factorial
     static const int value = N * factorial<N - 1>::value;
 };
 
+
 template<>
 struct factorial<0>
 {
     static const int value = 1;
 };
 
+template<typename T>
+void print_all(T t) {
+    std::cout << t << " ";
+}
+
+template<typename T, typename... Args>
+void print_all(T t, Args... args) {
+    std::cout << t << " ";
+    print_all(args...);
+}
+
+
+
 int main()
 {
     std::vector<std::string> arr3 = {"zad1", "das1", "zad2", "zad7", "zad11"};
     insertionSort(arr3);
+    std::vector<std::string> stdsortarr3 = arr3;
+    std::sort(stdsortarr3.begin(), stdsortarr3.end());
+    std::cout << "Natural order compare: " << std::endl;
     for (auto& l : arr3)
+    {
+        std::cout << l << " ";
+    }
+    std::cout << std::endl;
+    std::cout << "std::sort: " << std::endl;
+    for (auto& l : stdsortarr3)
     {
         std::cout << l << " ";
     }
@@ -91,6 +115,12 @@ int main()
     std::cout << factorial<5>::value << std::endl;
     std::cout << factorial<0>::value << std::endl;
     std::cout << std::endl;
+
+
+    print_all(1, 1.0, 1.0f, "Hello");
+    std::cout<<" "<<std::endl;
+    print_all(1, 2.0);
+    std::cout<<" "<<std::endl;
 
     return 0;
 }

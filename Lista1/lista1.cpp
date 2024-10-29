@@ -241,15 +241,6 @@ int main()
     }
     std::cout << std::endl;
 
-    //W ten sposób NIE mogę stworzyć stringa
-    cpplab::vector<std::string> cppvector3;
-    cppvector3 = {"a", "b", "c", "d", "e"};
-
-    for (int i = 0; i < cppvector3.size(); i++)
-    {
-        std::cout << cppvector3[i] << " ";
-    }
-
     return 0;
 
 }
